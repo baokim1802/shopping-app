@@ -4,7 +4,7 @@ import Categories from "../../components/Categories";
 import CountDown from "../../components/CountDown";
 import Features from "../../components/Features";
 import Promo from "../../components/Promo";
-import Reviews from "../../components/Reviews";
+import Reviews from "./components/Reviews";
 import TopSellers from "../../components/TopSellers";
 import Brands from "./components/Brands";
 

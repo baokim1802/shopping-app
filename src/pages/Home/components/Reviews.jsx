@@ -1,4 +1,6 @@
 import React from "react";
+import Flickity from "react-flickity-component";
+import ReviewCard from "../../../components/ReviewCard";
 
 export default function Reviews() {
   return (
@@ -15,71 +17,20 @@ export default function Reviews() {
         <div className="row">
           <div className="col-12">
             {/* Slider */}
-            <div data-flickity='{"pageDots": true}'>
-              <div className="col-12 col-sm-8 col-md-6 col-lg-4">
-                {/* Card */}
-                <div className="card-lg card border">
-                  <div className="card-body">
-                    {/* Header */}
-                    <div className="row align-items-center mb-6">
-                      <div className="col-4">
-                        {/* Image */}
-                        <img
-                          src="/img/products/product-13.jpg"
-                          alt="..."
-                          className="img-fluid"
-                        />
-                      </div>
-                      <div className="col-8 ml-n2">
-                        {/* Preheading */}
-                        <a className="font-size-xs text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                        {/* Heading */}
-                        <a
-                          className="d-block font-weight-bold text-body"
-                          href="product.html"
-                        >
-                          Low top Sneakers
-                        </a>
-                        {/* Rating */}
-                        <div
-                          className="rating font-size-xxs text-warning"
-                          data-value={3}
-                        >
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Blockquote */}
-                    <blockquote className="mb-0">
-                      <p className="text-muted">
-                        From creepeth said moved given divide make multiply of
-                        him shall itself also above second doesn't unto created
-                        saying land herb sea midst night wherein.
-                      </p>
-                      <footer className="font-size-xs text-muted">
-                        Logan Edwards,{" "}
-                        <time dateTime="2019-06-01">01 Jun 2019</time>
-                      </footer>
-                    </blockquote>
-                  </div>
-                </div>
-              </div>
+            <Flickity
+              options={{
+                initialIndex: 1,
+              }}
+            >
+              <ReviewCard
+                category="Shoes"
+                name="Low top Sneakers"
+                rate="3"
+                description="From creepeth said moved given divide make multiply of him shall itself also above second doesn't unto created saying land herb sea midst night wherein."
+                author="Logan Edwards"
+                date="01 Jun 2019"
+                img="/img/products/product-13.jpg"
+              />
               <div className="col-12 col-sm-8 col-md-6 col-lg-4">
                 {/* Card */}
                 <div className="card-lg card border">
@@ -274,7 +225,7 @@ export default function Reviews() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Flickity>
           </div>
         </div>
       </div>

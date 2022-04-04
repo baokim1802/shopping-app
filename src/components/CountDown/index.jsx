@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../Button";
 
 export default function CountDown() {
   return (
@@ -72,10 +73,9 @@ export default function CountDown() {
                 <div className="heading-xxs text-muted">Seconds</div>
               </div>
             </div>
-            {/* Button */}
-            <a className="btn btn-dark" href="shop.html">
+            <Button cnames="btn btn-dark">
               Shop Now <i className="fe fe-arrow-right ml-2" />
-            </a>
+            </Button>
           </div>
         </div>
       </div>

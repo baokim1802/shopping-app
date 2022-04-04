@@ -1,4 +1,5 @@
 import React from "react";
+import ProductCard from "../ProductCard";
 
 export default function TopSellers() {
   return (
@@ -29,6 +30,20 @@ export default function TopSellers() {
         <div className="tab-content">
           <div className="tab-pane fade show active" id="topSellersTab">
             <div className="row">
+              <ProductCard
+                category="Shoes"
+                name="Leather mid-heel Sandals"
+                price="129"
+                img="/img/products/product-5.jpg"
+                imgHover="/img/products/product-120.jpg"
+              />
+              <ProductCard
+                category="Dresses"
+                name="Cotton floral print Dress"
+                price="40"
+                img="/img/products/product-6.jpg"
+                imgHover="/img/products/product-121.jpg"
+              />
               <div className="col-6 col-md-4 col-lg-3">
                 {/* Card */}
                 <div className="card mb-7">
