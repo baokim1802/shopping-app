@@ -1,6 +1,21 @@
 @mixin transition {
-  transition: all 0.2s ease-in;
+  // transition: all 0.2s ease-in;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 
 $mainColor: #1f1f1f;
 $grayColor: #525252;
+$whiteColor: #fff;
+$blackColor: #111;

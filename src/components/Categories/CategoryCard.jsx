@@ -16,8 +16,8 @@ export default function CategoryCard({ type, backgroundImage }) {
           <h1 className="mb-0 font-weight-bolder">{type}</h1>
         </div>
         <div className="card-body mt-auto py-8">
-          <Button cnames="btn btn-white stretched-link">
-            Shop {type} <i className="fe fe-arrow-right ml-2" />
+          <Button cnames="btn btn-white" iconRight="fe fe-arrow-right ml-2">
+            Shop {type}
           </Button>
         </div>
       </div>

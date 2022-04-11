@@ -1,17 +1,36 @@
+import { Skeleton } from "@mui/material";
 import React from "react";
-import { currency } from "../../utils/number";
+import { currency } from "../../core/utils/number";
 
-export default function ProductCard({
-  category,
-  name,
-  price,
-  img,
-  imgHover,
-  discountPrice,
-  status,
-}) {
+export const ProductCardLoading = () => {
   return (
-    <div className="col-6 col-md-4 col-lg-3">
+    <div className="col-6 col-md-4">
+      <div className="card mb-7">
+        <div className="card-img">
+          <Skeleton height={380} />
+        </div>
+        <div className="card-body px-0">
+          {/* Category */}
+          <div className="font-size-xs">
+            <Skeleton height={20} />
+          </div>
+          {/* Title */}
+          <div className="font-weight-bold">
+            <Skeleton height={50} variant="text" />
+          </div>
+          {/* Price */}
+          <div className="font-weight-bold text-muted">
+            <Skeleton height={24} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function ProductCard({ name, real_price, images, categories }) {
+  return (
+    <div className="col-6 col-md-4">
       {/* Card */}
       <div className="card mb-7">
         {/* Badge */}
@@ -24,10 +43,14 @@ export default function ProductCard({
           <a className="card-img-hover" href="product.html">
             <img
               className="card-img-top card-img-back"
-              src={imgHover}
+              src={images?.[0]?.thumbnail_url}
               alt="..."
             />
-            <img className="card-img-top card-img-front" src={img} alt="..." />
+            <img
+              className="card-img-top card-img-front"
+              src={images?.[1]?.thumbnail_url || images?.[0]?.thumbnail_url}
+              alt="..."
+            />
           </a>
           {/* Actions */}
           <div className="card-actions">
@@ -63,7 +86,7 @@ export default function ProductCard({
           {/* Category */}
           <div className="font-size-xs">
             <a className="text-muted" href="shop.html">
-              {category}
+              {categories}
             </a>
           </div>
           {/* Title */}
@@ -73,7 +96,9 @@ export default function ProductCard({
             </a>
           </div>
           {/* Price */}
-          <div className="font-weight-bold text-muted">{currency(price)}</div>
+          <div className="font-weight-bold text-muted">
+            {currency(real_price, "vn")}
+          </div>
         </div>
       </div>
     </div>

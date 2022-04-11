@@ -10,14 +10,14 @@ import SidebarModal from "../components/SidebarModal";
 import SizeChartModal from "../components/SizeChartModal";
 import WaitListModal from "../components/WaitListModal";
 import ShoppingCartModal from "../components/ShoppingCartModal";
-import NavbarSmall from "../components/NavbarSmall";
-import NavbarBig from "../components/NavbarBig";
+import TopNavbar from "../components/TopNavbar";
+import Navbar from "../components/Navbar";
 
 export default function MainLayout({ children }) {
   return (
     <>
-      <NavbarSmall />
-      <NavbarBig />
+      <TopNavbar />
+      <Navbar />
       <Outlet />
       <Footer />
 

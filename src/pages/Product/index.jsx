@@ -1,1571 +1,1426 @@
 import React from "react";
-import Features from "../../components/Features";
+import { useSearchParams } from "react-router-dom";
+import ListView from "../../components/ListView";
+import Paginate from "../../components/Paginate";
+import ProductCard, { ProductCardLoading } from "../../components/ProductCard";
+import useQuery from "../../core/hooks/useQuery";
+import { convertQueryURLToObject } from "../../core/utils/url";
+import { productService } from "../../services/productService";
 
-export default function Product() {
+export default function ProductList() {
+  const query = useSearchParams();
+  const objUrl = convertQueryURLToObject(query[0].toString());
+
+  const page = parseInt(objUrl.page || "1");
+  const {
+    data: products,
+    loading: productLoading,
+    paginate,
+  } = useQuery(() => productService.getProduct(`?page=${page}`), [page]);
   return (
-    <>
-      {/* BREADCRUMB */}
-      <nav className="py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              {/* Breadcrumb */}
-              <ol className="breadcrumb mb-0 font-size-xs text-gray-400">
-                <li className="breadcrumb-item">
-                  <a className="text-gray-400" href="index.html">
-                    Home
-                  </a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a className="text-gray-400" href="shop.html">
-                    Women's Shoes
-                  </a>
-                </li>
-                <li className="breadcrumb-item active">Leather Sneakers</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </nav>
-      {/* PRODUCT */}
-      <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="row">
-                <div className="col-12 col-md-6">
-                  {/* Card */}
-                  <div className="card">
-                    {/* Badge */}
-                    <div className="badge badge-primary card-badge text-uppercase">
-                      Sale
-                    </div>
-                    {/* Slider */}
-                    <div
-                      className="mb-4"
-                      data-flickity='{"draggable": false, "fade": true}'
-                      id="productSlider"
-                    >
-                      {/* Item */}
-                      <a href="/img/products/product-7.jpg" data-fancybox="">
-                        <img
-                          src="/img/products/product-7.jpg"
-                          alt="..."
-                          className="card-img-top"
-                        />
-                      </a>
-                      {/* Item */}
-                      <a href="/img/products/product-122.jpg" data-fancybox="">
-                        <img
-                          src="/img/products/product-122.jpg"
-                          alt="..."
-                          className="card-img-top"
-                        />
-                      </a>
-                      {/* Item */}
-                      <a href="/img/products/product-146.jpg" data-fancybox="">
-                        <img
-                          src="/img/products/product-146.jpg"
-                          alt="..."
-                          className="card-img-top"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                  {/* Slider */}
-                  <div
-                    className="flickity-nav mx-n2 mb-10 mb-md-0"
-                    data-flickity='{"asNavFor": "#productSlider", "contain": true, "wrapAround": false}'
-                  >
-                    {/* Item */}
-                    <div className="col-12 px-2" style={{ maxWidth: 113 }}>
-                      {/* Image */}
-                      <div
-                        className="embed-responsive embed-responsive-1by1 bg-cover"
-                        style={{
-                          backgroundImage: "url(/img/products/product-7.jpg)",
-                        }}
-                      />
-                    </div>
-                    {/* Item */}
-                    <div className="col-12 px-2" style={{ maxWidth: 113 }}>
-                      {/* Image */}
-                      <div
-                        className="embed-responsive embed-responsive-1by1 bg-cover"
-                        style={{
-                          backgroundImage: "url(/img/products/product-122.jpg)",
-                        }}
-                      />
-                    </div>
-                    {/* Item */}
-                    <div className="col-12 px-2" style={{ maxWidth: 113 }}>
-                      {/* Image */}
-                      <div
-                        className="embed-responsive embed-responsive-1by1 bg-cover"
-                        style={{
-                          backgroundImage: "url(/img/products/product-146.jpg)",
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-md-6 pl-lg-10">
-                  {/* Header */}
-                  <div className="row mb-1">
-                    <div className="col">
-                      {/* Preheading */}
-                      <a className="text-muted" href="shop.html">
-                        Sneakers
-                      </a>
-                    </div>
-                    <div className="col-auto">
-                      {/* Rating */}
-                      <div
-                        className="rating font-size-xs text-dark"
-                        data-value={4}
-                      >
-                        <div className="rating-item">
-                          <i className="fas fa-star" />
-                        </div>
-                        <div className="rating-item">
-                          <i className="fas fa-star" />
-                        </div>
-                        <div className="rating-item">
-                          <i className="fas fa-star" />
-                        </div>
-                        <div className="rating-item">
-                          <i className="fas fa-star" />
-                        </div>
-                        <div className="rating-item">
-                          <i className="fas fa-star" />
-                        </div>
-                      </div>
-                      <a
-                        className="font-size-sm text-reset ml-2"
-                        href="#reviews"
-                      >
-                        Reviews (6)
-                      </a>
-                    </div>
-                  </div>
-                  {/* Heading */}
-                  <h3 className="mb-2">Leather Sneakers</h3>
-                  {/* Price */}
-                  <div className="mb-7">
-                    <span className="font-size-lg font-weight-bold text-gray-350 text-decoration-line-through">
-                      $115.00
-                    </span>
-                    <span className="ml-1 font-size-h5 font-weight-bolder text-primary">
-                      $85.00
-                    </span>
-                    <span className="font-size-sm ml-1">(In Stock)</span>
-                  </div>
-                  {/* Form */}
-                  <form>
-                    <div className="form-group">
-                      {/* Label */}
-                      <p className="mb-5">
-                        Color: <strong id="colorCaption">White</strong>
-                      </p>
-                      {/* Radio */}
-                      <div className="mb-8 ml-n1">
-                        <div className="custom-control custom-control-inline custom-control-img">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            id="imgRadioOne"
-                            name="imgRadio"
-                            data-toggle="form-caption"
-                            data-target="#colorCaption"
-                            defaultValue="White"
-                            defaultChecked=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="imgRadioOne"
-                          >
-                            <span
-                              className="embed-responsive embed-responsive-1by1 bg-cover"
-                              style={{
-                                backgroundImage:
-                                  "url(/img/products/product-7.jpg)",
-                              }}
-                            />
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-img">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            id="imgRadioTwo"
-                            name="imgRadio"
-                            data-toggle="form-caption"
-                            data-target="#colorCaption"
-                            defaultValue="Black"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="imgRadioTwo"
-                          >
-                            <span
-                              className="embed-responsive embed-responsive-1by1 bg-cover"
-                              style={{
-                                backgroundImage:
-                                  "url(/img/products/product-49.jpg)",
-                              }}
-                            />
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      {/* Label */}
-                      <p className="mb-5">
-                        Size:{" "}
-                        <strong>
-                          <span id="sizeCaption">7.5</span> US
-                        </strong>
-                      </p>
-                      {/* Radio */}
-                      <div className="mb-2">
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioOne"
-                            defaultValue={6}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioOne"
-                          >
-                            6
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioTwo"
-                            defaultValue="6.5"
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                            disabled=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioTwo"
-                          >
-                            6.5
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioThree"
-                            defaultValue={7}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioThree"
-                          >
-                            7
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioFour"
-                            defaultValue="7.5"
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                            defaultChecked=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioFour"
-                          >
-                            7.5
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioFive"
-                            defaultValue={8}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioFive"
-                          >
-                            8
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioSix"
-                            defaultValue="8.5"
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioSix"
-                          >
-                            8.5
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioSeven"
-                            defaultValue={9}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                            disabled=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioSeven"
-                          >
-                            9
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioEight"
-                            defaultValue="9.5"
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                            disabled=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioEight"
-                          >
-                            9.5
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioNine"
-                            defaultValue={10}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioNine"
-                          >
-                            10
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioTen"
-                            defaultValue="10.5"
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioTen"
-                          >
-                            10.5
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioEleven"
-                            defaultValue={11}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioEleven"
-                          >
-                            11
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioTwelve"
-                            defaultValue={12}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioTwelve"
-                          >
-                            12
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioThirteen"
-                            defaultValue={13}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioThirteen"
-                          >
-                            13
-                          </label>
-                        </div>
-                        <div className="custom-control custom-control-inline custom-control-size mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            name="sizeRadio"
-                            id="sizeRadioFourteen"
-                            defaultValue={14}
-                            data-toggle="form-caption"
-                            data-target="#sizeCaption"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="sizeRadioFourteen"
-                          >
-                            14
-                          </label>
-                        </div>
-                      </div>
-                      {/* Size chart */}
-                      <p className="mb-8">
-                        <img
-                          src="/img/icons/icon-ruler.svg"
-                          alt="..."
-                          className="img-fluid"
-                        />{" "}
-                        <a
-                          className="text-reset text-decoration-underline ml-3"
-                          data-toggle="modal"
-                          href="#modalSizeChart"
-                        >
-                          Size chart
-                        </a>
-                      </p>
-                      <div className="form-row mb-7">
-                        <div className="col-12 col-lg-auto">
-                          {/* Quantity */}
-                          <select className="custom-select mb-2">
-                            <option value={1} defaultValue="">
-                              1
-                            </option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                            <option value={5}>5</option>
-                          </select>
-                        </div>
-                        <div className="col-12 col-lg">
-                          {/* Submit */}
-                          <button
-                            type="submit"
-                            className="btn btn-block btn-dark mb-2"
-                          >
-                            Add to Cart{" "}
-                            <i className="fe fe-shopping-cart ml-2" />
-                          </button>
-                        </div>
-                        <div className="col-12 col-lg-auto">
-                          {/* Wishlist */}
-                          <button
-                            className="btn btn-outline-dark btn-block mb-2"
-                            data-toggle="button"
-                          >
-                            Wishlist <i className="fe fe-heart ml-2" />
-                          </button>
-                        </div>
-                      </div>
-                      {/* Text */}
-                      <p>
-                        <span className="text-gray-500">
-                          Is your size/color sold out?
-                        </span>
-                        <a
-                          className="text-reset text-decoration-underline"
-                          data-toggle="modal"
-                          href="#modalWaitList"
-                        >
-                          Join the Wait List!
-                        </a>
-                      </p>
-                      {/* Share */}
-                      <p className="mb-0">
-                        <span className="mr-4">Share:</span>
-                        <a
-                          className="btn btn-xxs btn-circle btn-light font-size-xxxs text-gray-350"
-                          href="#!"
-                        >
-                          <i className="fab fa-twitter" />
-                        </a>
-                        <a
-                          className="btn btn-xxs btn-circle btn-light font-size-xxxs text-gray-350"
-                          href="#!"
-                        >
-                          <i className="fab fa-facebook-f" />
-                        </a>
-                        <a
-                          className="btn btn-xxs btn-circle btn-light font-size-xxxs text-gray-350"
-                          href="#!"
-                        >
-                          <i className="fab fa-pinterest-p" />
-                        </a>
-                      </p>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* DESCRIPTION */}
-      <section className="pt-11">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              {/* Nav */}
-              <div className="nav nav-tabs nav-overflow justify-content-start justify-content-md-center border-bottom">
-                <a
-                  className="nav-link active"
-                  data-toggle="tab"
-                  href="#descriptionTab"
-                >
-                  Description
-                </a>
-                <a className="nav-link" data-toggle="tab" href="#sizeTab">
-                  Size &amp; Fit
-                </a>
-                <a className="nav-link" data-toggle="tab" href="#shippingTab">
-                  Shipping &amp; Return
-                </a>
-              </div>
-              {/* Content */}
-              <div className="tab-content">
-                <div className="tab-pane fade show active" id="descriptionTab">
-                  <div className="row justify-content-center py-9">
-                    <div className="col-12 col-lg-10 col-xl-8">
-                      <div className="row">
-                        <div className="col-12">
-                          {/* Text */}
-                          <p className="text-gray-500">
-                            Won't herb first male seas, beast. Let upon, female
-                            upon third fifth every. Man subdue rule after years
-                            herb after form. And image may, morning. Behold in
-                            tree day sea that together cattle whose. Fifth
-                            gathering brought bearing. Abundantly creeping
-                            whose. Beginning form have void two. A whose.
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-6">
-                          {/* List */}
-                          <ul className="list list-unstyled mb-md-0 text-gray-500">
-                            <li>
-                              <strong className="text-body">SKU</strong>:
-                              #61590437
-                            </li>
-                            <li>
-                              <strong className="text-body">Occasion</strong>:
-                              Lifestyle, Sport
-                            </li>
-                            <li>
-                              <strong className="text-body">Country</strong>:
-                              Italy
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="col-12 col-md-6">
-                          {/* List */}
-                          <ul className="list list-unstyled mb-0">
-                            <li>
-                              <strong>Outer</strong>: Leather 100%, Polyamide
-                              100%
-                            </li>
-                            <li>
-                              <strong>Lining</strong>: Polyester 100%
-                            </li>
-                            <li>
-                              <strong>CounSoletry</strong>: Rubber 100%
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="tab-pane fade" id="sizeTab">
-                  <div className="row justify-content-center py-9">
-                    <div className="col-12 col-lg-10 col-xl-8">
-                      <div className="row">
-                        <div className="col-12 col-md-6">
-                          {/* Text */}
-                          <p className="mb-4">
-                            <strong>Fitting information:</strong>
-                          </p>
-                          {/* List */}
-                          <ul className="mb-md-0 text-gray-500">
-                            <li>
-                              Upon seas hath every years have whose subdue
-                              creeping they're it were.
-                            </li>
-                            <li>Make great day bearing.</li>
-                            <li>For the moveth is days don't said days.</li>
-                          </ul>
-                        </div>
-                        <div className="col-12 col-md-6">
-                          {/* Text */}
-                          <p className="mb-4">
-                            <strong>Model measurements:</strong>
-                          </p>
-                          {/* List */}
-                          <ul className="list-unstyled text-gray-500">
-                            <li>Height: 1.80 m</li>
-                            <li>Bust/Chest: 89 cm</li>
-                            <li>Hips: 91 cm</li>
-                            <li>Waist: 65 cm</li>
-                            <li>Model size: M</li>
-                          </ul>
-                          {/* Size */}
-                          <p className="mb-0">
-                            <img
-                              src="/img/icons/icon-ruler.svg"
-                              alt="..."
-                              className="img-fluid"
-                            />
-                            <a
-                              className="text-reset text-decoration-underline ml-3"
-                              data-toggle="modal"
-                              href="#modalSizeChart"
-                            >
-                              Size chart
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="tab-pane fade" id="shippingTab">
-                  <div className="row justify-content-center py-9">
-                    <div className="col-12 col-lg-10 col-xl-8">
-                      {/* Table */}
-                      <div className="table-responsive">
-                        <table className="table table-bordered table-sm table-hover">
-                          <thead>
-                            <tr>
-                              <th>Shipping Options</th>
-                              <th>Delivery Time</th>
-                              <th>Price</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Standard Shipping</td>
-                              <td>Delivery in 5 - 7 working days</td>
-                              <td>$8.00</td>
-                            </tr>
-                            <tr>
-                              <td>Express Shipping</td>
-                              <td>Delivery in 3 - 5 working days</td>
-                              <td>$12.00</td>
-                            </tr>
-                            <tr>
-                              <td>1 - 2 day Shipping</td>
-                              <td>Delivery in 1 - 2 working days</td>
-                              <td>$12.00</td>
-                            </tr>
-                            <tr>
-                              <td>Free Shipping</td>
-                              <td>
-                                Living won't the He one every subdue meat
-                                replenish face was you morning firmament
-                                darkness.
-                              </td>
-                              <td>$0.00</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      {/* Caption */}
-                      <p className="mb-0 text-gray-500">
-                        May, life blessed night so creature likeness their, for.{" "}
-                        <a
-                          className="text-body text-decoration-underline"
-                          href="#!"
-                        >
-                          Find out more
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* PRODUCTS */}
-      <section className="pt-11">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              {/* Heading */}
-              <h4 className="mb-10 text-center">You might also like</h4>
-              {/* Items */}
-              <div className="row">
-                <div className="col-6 col-sm-6 col-md-4 col-lg-3">
-                  {/* Card */}
-                  <div className="card mb-7">
-                    {/* Badge */}
-                    <div className="badge badge-white card-badge card-badge-left text-uppercase">
-                      New
-                    </div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img
-                          className="card-img-top card-img-back"
-                          src="/img/products/product-120.jpg"
-                          alt="..."
-                        />
-                        <img
-                          className="card-img-top card-img-front"
-                          src="/img/products/product-5.jpg"
-                          alt="..."
-                        />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="modal"
-                            data-target="#modalProduct"
-                          >
-                            <i className="fe fe-eye" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="font-weight-bold">
-                        <a className="text-body" href="product.html">
-                          Leather mid-heel Sandals
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$129.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-sm-6 col-md-4 col-lg-3">
-                  {/* Card */}
-                  <div className="card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img
-                          className="card-img-top card-img-back"
-                          src="/img/products/product-121.jpg"
-                          alt="..."
-                        />
-                        <img
-                          className="card-img-top card-img-front"
-                          src="/img/products/product-6.jpg"
-                          alt="..."
-                        />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="modal"
-                            data-target="#modalProduct"
-                          >
-                            <i className="fe fe-eye" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Dresses
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="font-weight-bold">
-                        <a className="text-body" href="product.html">
-                          Cotton floral print Dress
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$40.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-sm-6 col-md-4 col-lg-3">
-                  {/* Card */}
-                  <div className="card mb-7">
-                    {/* Badge */}
-                    <div className="badge badge-dark card-badge card-badge-left text-uppercase">
-                      Sale
-                    </div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img
-                          className="card-img-top card-img-back"
-                          src="/img/products/product-122.jpg"
-                          alt="..."
-                        />
-                        <img
-                          className="card-img-top card-img-front"
-                          src="/img/products/product-7.jpg"
-                          alt="..."
-                        />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="modal"
-                            data-target="#modalProduct"
-                          >
-                            <i className="fe fe-eye" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="font-weight-bold">
-                        <a className="text-body" href="product.html">
-                          Leather Sneakers
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold">
-                        <span className="font-size-xs text-gray-350 text-decoration-line-through">
-                          $85.00
-                        </span>
-                        <span className="text-primary">$85.00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-sm-6 col-md-4 col-lg-3 d-md-none d-lg-block">
-                  {/* Card */}
-                  <div className="card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a href="#!">
-                        <img
-                          className="card-img-top card-img-front"
-                          src="/img/products/product-8.jpg"
-                          alt="..."
-                        />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="modal"
-                            data-target="#modalProduct"
-                          >
-                            <i className="fe fe-eye" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button
-                            className="btn btn-xs btn-circle btn-white-primary"
-                            data-toggle="button"
-                          >
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Tops
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="font-weight-bold">
-                        <a className="text-body" href="product.html">
-                          Cropped cotton Top
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$29.00</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* REVIEWS */}
-      <section className="pt-9 pb-11" id="reviews">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              {/* Heading */}
-              <h4 className="mb-10 text-center">Customer Reviews</h4>
-              {/* Header */}
-              <div className="row align-items-center">
-                <div className="col-12 col-md-auto">
-                  {/* Dropdown */}
-                  <div className="dropdown mb-4 mb-md-0">
-                    {/* Toggle */}
-                    <a
-                      className="dropdown-toggle text-reset"
-                      data-toggle="dropdown"
-                      href="#"
-                    >
-                      <strong>Sort by: Newest</strong>
-                    </a>
-                    {/* Menu */}
-                    <div className="dropdown-menu mt-3">
-                      <a className="dropdown-item" href="#!">
-                        Newest
-                      </a>
-                      <a className="dropdown-item" href="#!">
-                        Oldest
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-md text-md-center">
-                  {/* Rating */}
-                  <div
-                    className="rating text-dark h6 mb-4 mb-md-0"
-                    data-value={4}
-                  >
-                    <div className="rating-item">
-                      <i className="fas fa-star" />
-                    </div>
-                    <div className="rating-item">
-                      <i className="fas fa-star" />
-                    </div>
-                    <div className="rating-item">
-                      <i className="fas fa-star" />
-                    </div>
-                    <div className="rating-item">
-                      <i className="fas fa-star" />
-                    </div>
-                    <div className="rating-item">
-                      <i className="fas fa-star" />
-                    </div>
-                  </div>
-                  {/* Count */}
-                  <strong className="font-size-sm ml-2">Reviews (3)</strong>
-                </div>
-                <div className="col-12 col-md-auto">
-                  {/* Button */}
+    <section className="py-11">
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-4 col-lg-3">
+            {/* Filters */}
+            <form className="mb-10 mb-md-0">
+              <ul className="nav nav-vertical" id="filterNav">
+                <li className="nav-item">
+                  {/* Toggle */}
                   <a
-                    className="btn btn-sm btn-dark"
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
                     data-toggle="collapse"
-                    href="#reviewForm"
+                    href="#categoryCollapse"
                   >
-                    Write Review
+                    Category
                   </a>
-                </div>
-              </div>
-              {/* New Review */}
-              <div className="collapse" id="reviewForm">
-                {/* Divider */}
-                <hr className="my-8" />
-                {/* Form */}
-                <form>
-                  <div className="row">
-                    <div className="col-12 mb-6 text-center">
-                      {/* Text */}
-                      <p className="mb-1 font-size-xs">Score:</p>
-                      {/* Rating form */}
-                      <div className="rating-form">
-                        {/* Input */}
-                        <input
-                          className="rating-input"
-                          type="range"
-                          min={1}
-                          max={5}
-                          defaultValue={5}
-                        />
-                        {/* Rating */}
-                        <div className="rating h5 text-dark" data-value={5}>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                          <div className="rating-item">
-                            <i className="fas fa-star" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      {/* Name */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="reviewName">
-                          Your Name:
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="reviewName"
-                          type="text"
-                          placeholder="Your Name *"
-                          required=""
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      {/* Email */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="reviewEmail">
-                          Your Email:
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="reviewEmail"
-                          type="email"
-                          placeholder="Your Email *"
-                          required=""
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      {/* Name */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="reviewTitle">
-                          Review Title:
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="reviewTitle"
-                          type="text"
-                          placeholder="Review Title *"
-                          required=""
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      {/* Name */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="reviewText">
-                          Review:
-                        </label>
-                        <textarea
-                          className="form-control form-control-sm"
-                          id="reviewText"
-                          rows={5}
-                          placeholder="Review *"
-                          required=""
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 text-center">
-                      {/* Button */}
-                      <button className="btn btn-outline-dark" type="submit">
-                        Post Review
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              {/* Reviews */}
-              <div className="mt-8">
-                {/* Review */}
-                <div className="review">
-                  <div className="review-body">
-                    <div className="row">
-                      <div className="col-12 col-md-auto">
-                        {/* Avatar */}
-                        <div className="avatar avatar-xxl mb-6 mb-md-0">
-                          <span className="avatar-title rounded-circle">
-                            <i className="fa fa-user" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md">
-                        {/* Header */}
-                        <div className="row mb-6">
-                          <div className="col-12">
-                            {/* Rating */}
-                            <div
-                              className="rating font-size-sm text-dark"
-                              data-value={5}
-                            >
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12">
-                            {/* Time */}
-                            <span className="font-size-xs text-muted">
-                              Logan Edwards,{" "}
-                              <time dateTime="2019-07-25">25 Jul 2019</time>
-                            </span>
-                          </div>
-                        </div>
-                        {/* Title */}
-                        <p className="mb-2 font-size-lg font-weight-bold">
-                          So cute!
-                        </p>
-                        {/* Text */}
-                        <p className="text-gray-500">
-                          Justo ut diam erat hendrerit. Morbi porttitor, per eu.
-                          Sodales curabitur diam sociis. Taciti lobortis
-                          nascetur. Ante laoreet odio hendrerit. Dictumst
-                          curabitur nascetur lectus potenti dis sollicitudin
-                          habitant quis vestibulum.
-                        </p>
-                        {/* Footer */}
-                        <div className="row align-items-center">
-                          <div className="col-auto d-none d-lg-block">
-                            {/* Text */}
-                            <p className="mb-0 font-size-sm">
-                              Was this review helpful?
-                            </p>
-                          </div>
-                          <div className="col-auto mr-auto">
-                            {/* Rate */}
-                            <div className="rate">
-                              <a
-                                className="rate-item"
-                                data-toggle="vote"
-                                data-count={3}
-                                href="#"
-                                role="button"
-                              >
-                                <i className="fe fe-thumbs-up" />
-                              </a>
-                              <a
-                                className="rate-item"
-                                data-toggle="vote"
-                                data-count={0}
-                                href="#"
-                                role="button"
-                              >
-                                <i className="fe fe-thumbs-down" />
-                              </a>
-                            </div>
-                          </div>
-                          <div className="col-auto d-none d-lg-block">
-                            {/* Text */}
-                            <p className="mb-0 font-size-sm">Comments (0)</p>
-                          </div>
-                          <div className="col-auto">
-                            {/* Button */}
-                            <a
-                              className="btn btn-xs btn-outline-border"
-                              href="#!"
-                            >
-                              Comment
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* Review */}
-                <div className="review">
-                  {/* Body */}
-                  <div className="review-body">
-                    <div className="row">
-                      <div className="col-12 col-md-auto">
-                        {/* Avatar */}
-                        <div className="avatar avatar-xxl mb-6 mb-md-0">
-                          <span className="avatar-title rounded-circle">
-                            <i className="fa fa-user" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md">
-                        {/* Header */}
-                        <div className="row mb-6">
-                          <div className="col-12">
-                            {/* Rating */}
-                            <div
-                              className="rating font-size-sm text-dark"
-                              data-value={3}
-                            >
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                              <div className="rating-item">
-                                <i className="fas fa-star" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12">
-                            {/* Time */}
-                            <span className="font-size-xs text-muted">
-                              Sophie Casey,{" "}
-                              <time dateTime="2019-07-07">07 Jul 2019</time>
-                            </span>
-                          </div>
-                        </div>
-                        {/* Title */}
-                        <p className="mb-2 font-size-lg font-weight-bold">
-                          Cute, but too small
-                        </p>
-                        {/* Text */}
-                        <p className="text-gray-500">
-                          Shall good midst can't. Have fill own his multiply the
-                          divided. Thing great. Of heaven whose signs.
-                        </p>
-                        {/* Footer */}
-                        <div className="row align-items-center">
-                          <div className="col-auto d-none d-lg-block">
-                            {/* Text */}
-                            <p className="mb-0 font-size-sm">
-                              Was this review helpful?
-                            </p>
-                          </div>
-                          <div className="col-auto mr-auto">
-                            {/* Rate */}
-                            <div className="rate">
-                              <a
-                                className="rate-item"
-                                data-toggle="vote"
-                                data-count={2}
-                                href="#"
-                                role="button"
-                              >
-                                <i className="fe fe-thumbs-up" />
-                              </a>
-                              <a
-                                className="rate-item"
-                                data-toggle="vote"
-                                data-count={1}
-                                href="#"
-                                role="button"
-                              >
-                                <i className="fe fe-thumbs-down" />
-                              </a>
-                            </div>
-                          </div>
-                          <div className="col-auto d-none d-lg-block">
-                            {/* Text */}
-                            <p className="mb-0 font-size-sm">Comments (1)</p>
-                          </div>
-                          <div className="col-auto">
-                            {/* Button */}
-                            <a
-                              className="btn btn-xs btn-outline-border"
-                              href="#!"
-                            >
-                              Comment
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Child review */}
-                  <div className="review review-child">
-                    <div className="review-body">
-                      {/* Content */}
-                      <div className="row">
-                        <div className="col-12 col-md-auto">
-                          {/* Avatar */}
-                          <div className="avatar avatar-xxl mb-6 mb-md-0">
-                            <span className="avatar-title rounded-circle">
-                              <i className="fa fa-user" />
-                            </span>
-                          </div>
-                        </div>
-                        <div className="col-12 col-md">
-                          {/* Header */}
-                          <div className="row mb-6">
-                            <div className="col-12">
-                              {/* Rating */}
-                              <div
-                                className="rating font-size-sm text-dark"
-                                data-value={4}
-                              >
-                                <div className="rating-item">
-                                  <i className="fas fa-star" />
-                                </div>
-                                <div className="rating-item">
-                                  <i className="fas fa-star" />
-                                </div>
-                                <div className="rating-item">
-                                  <i className="fas fa-star" />
-                                </div>
-                                <div className="rating-item">
-                                  <i className="fas fa-star" />
-                                </div>
-                                <div className="rating-item">
-                                  <i className="fas fa-star" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-12">
-                              {/* Time */}
-                              <span className="font-size-xs text-muted">
-                                William Stokes,{" "}
-                                <time dateTime="2019-07-14">14 Jul 2019</time>
-                              </span>
-                            </div>
-                          </div>
-                          {/* Title */}
-                          <p className="mb-2 font-size-lg font-weight-bold">
-                            Very good
-                          </p>
-                          {/* Text */}
-                          <p className="text-gray-500">
-                            Made face lights yielding forth created for image
-                            behold blessed seas.
-                          </p>
-                          {/* Footer */}
-                          <div className="row align-items-center">
-                            <div className="col-auto d-none d-lg-block">
-                              {/* Text */}
-                              <p className="mb-0 font-size-sm">
-                                Was this review helpful?
-                              </p>
-                            </div>
-                            <div className="col-auto mr-auto">
-                              {/* Rate */}
-                              <div className="rate">
-                                <a
-                                  className="rate-item"
-                                  data-toggle="vote"
-                                  data-count={7}
-                                  href="#"
-                                  role="button"
+                  {/* Collapse */}
+                  <div className="collapse show" id="categoryCollapse">
+                    <div className="form-group">
+                      <ul className="list-styled mb-0" id="productsNav">
+                        <li className="list-styled-item">
+                          <a className="list-styled-link" href="#">
+                            All Products
+                          </a>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#blousesCollapse"
+                          >
+                            Blouses and Shirts
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="blousesCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="blousesOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="blousesOne"
                                 >
-                                  <i className="fe fe-thumbs-up" />
-                                </a>
-                                <a
-                                  className="rate-item"
-                                  data-toggle="vote"
-                                  data-count={0}
-                                  href="#"
-                                  role="button"
+                                  Women Tops, Tees &amp; Blouses
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="blousesTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="blousesTwo"
                                 >
-                                  <i className="fe fe-thumbs-down" />
-                                </a>
+                                  Petite
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="blousesThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="blousesThree"
+                                >
+                                  Petite-Size Blouses &amp; Button-Down Shirts
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="blousesFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="blousesFour"
+                                >
+                                  Women Plus Tops &amp; Tees
+                                </label>
                               </div>
                             </div>
-                            <div className="col-auto d-none d-lg-block">
-                              {/* Text */}
-                              <p className="mb-0 font-size-sm">Comments (0)</p>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#coatsCollapse"
+                          >
+                            Coats and Jackets
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="coatsCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="coatsOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="coatsOne"
+                                >
+                                  Coats, Jackets &amp; Vests
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="coatsTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="coatsTwo"
+                                >
+                                  Down Jackets &amp; Parkas
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="coatsThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="coatsThree"
+                                >
+                                  Wool &amp; Pea Coats Plus-Size
+                                </label>
+                              </div>
                             </div>
-                            <div className="col-auto">
-                              {/* Button */}
-                              <a
-                                className="btn btn-xs btn-outline-border"
-                                href="#!"
-                              >
-                                Comment
-                              </a>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#dressesCollapse"
+                            aria-expanded="true"
+                          >
+                            Dresses
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse show"
+                            id="dressesCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="dressesOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="dressesOne"
+                                >
+                                  A-line Dresses
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="dressesTwo"
+                                  type="checkbox"
+                                  defaultChecked=""
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="dressesTwo"
+                                >
+                                  Shift Dresses
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="dressesThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="dressesThree"
+                                >
+                                  Wrap Dresses
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="dressesFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="dressesFour"
+                                >
+                                  Maxi Dresses
+                                </label>
+                              </div>
                             </div>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#hoodiesCollapse"
+                          >
+                            Hoodies and Sweats
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="hoodiesCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="hoodiesOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="hoodiesOne"
+                                >
+                                  Activewear
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="hoodiesTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="hoodiesTwo"
+                                >
+                                  Fashion Hoodies &amp; Sweatshirts
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="hoodiesThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="hoodiesThree"
+                                >
+                                  Big &amp; Tall Sweatshirts
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="hoodiesFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="hoodiesFour"
+                                >
+                                  Big &amp; Tall Fashion Hoodies
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#denimCollapse"
+                          >
+                            Denim
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="denimCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="denimOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="denimOne"
+                                >
+                                  Women Shorts
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="denimTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="denimTwo"
+                                >
+                                  Juniors' Shorts
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="denimThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="denimThree"
+                                >
+                                  Petite
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="denimFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="denimFour"
+                                >
+                                  Women Plus Shorts
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#jeansCollapse"
+                          >
+                            Jeans
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="jeansCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jeansOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jeansOne"
+                                >
+                                  Men Jeans
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jeansTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jeansTwo"
+                                >
+                                  Men Big &amp; Tall Jeans
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jeansThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jeansThree"
+                                >
+                                  Surf, Skate &amp; Street Clothing
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="jeansFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jeansFour"
+                                >
+                                  Men Big &amp; Tall Pants
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#jumpersCollapse"
+                          >
+                            Jumpers and Cardigans
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="jumpersCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jumpersOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jumpersOne"
+                                >
+                                  Sweaters Plus-Size
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jumpersTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jumpersTwo"
+                                >
+                                  Plus Sweaters
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="jumpersThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jumpersThree"
+                                >
+                                  Petite Cardigans
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="jumpersFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="jumpersFour"
+                                >
+                                  Tops, Tees &amp; Blouses
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="list-styled-item">
+                          {/* Toggle */}
+                          <a
+                            className="list-styled-link"
+                            data-toggle="collapse"
+                            href="#legginsCollapse"
+                          >
+                            Leggings
+                          </a>
+                          {/* Collapse */}
+                          <div
+                            className="collapse"
+                            id="legginsCollapse"
+                            data-parent="#productsNav"
+                          >
+                            <div className="py-4 pl-5">
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="legginsOne"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="legginsOne"
+                                >
+                                  Novelty Leggings
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="legginsTwo"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="legginsTwo"
+                                >
+                                  Novelty Pants &amp; Capris
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox mb-3">
+                                <input
+                                  className="custom-control-input"
+                                  id="legginsThree"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="legginsThree"
+                                >
+                                  Women Yoga Leggings
+                                </label>
+                              </div>
+                              <div className="custom-control custom-checkbox">
+                                <input
+                                  className="custom-control-input"
+                                  id="legginsFour"
+                                  type="checkbox"
+                                />
+                                <label
+                                  className="custom-control-label"
+                                  htmlFor="legginsFour"
+                                >
+                                  Workout &amp; Training Leggings
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li className="nav-item">
+                  {/* Toggle */}
+                  <a
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
+                    data-toggle="collapse"
+                    href="#seasonCollapse"
+                  >
+                    Season
+                  </a>
+                  {/* Collapse */}
+                  <div
+                    className="collapse"
+                    id="seasonCollapse"
+                    data-toggle="simplebar"
+                    data-target="#seasonGroup"
+                  >
+                    <div
+                      className="form-group form-group-overflow mb-6"
+                      id="seasonGroup"
+                    >
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="seasonOne"
+                          type="checkbox"
+                          defaultChecked=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="seasonOne"
+                        >
+                          Summer
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="seasonTwo"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="seasonTwo"
+                        >
+                          Winter
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox">
+                        <input
+                          className="custom-control-input"
+                          id="seasonThree"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="seasonThree"
+                        >
+                          Spring &amp; Autumn
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="nav-item">
+                  {/* Toggle */}
+                  <a
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
+                    data-toggle="collapse"
+                    href="#sizeCollapse"
+                  >
+                    Size
+                  </a>
+                  {/* Collapse */}
+                  <div
+                    className="collapse"
+                    id="sizeCollapse"
+                    data-toggle="simplebar"
+                    data-target="#sizeGroup"
+                  >
+                    <div
+                      className="form-group form-group-overlow mb-6"
+                      id="sizeGroup"
+                    >
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeOne"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeOne"
+                        >
+                          3XS
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeTwo"
+                          type="checkbox"
+                          disabled=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeTwo"
+                        >
+                          2XS
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeThree"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeThree"
+                        >
+                          XS
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeFour"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeFour"
+                        >
+                          S
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeFive"
+                          type="checkbox"
+                          defaultChecked=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeFive"
+                        >
+                          M
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeSix"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeSix"
+                        >
+                          L
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeSeven"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeSeven"
+                        >
+                          XL
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeEight"
+                          type="checkbox"
+                          disabled=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeEight"
+                        >
+                          2XL
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeNine"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeNine"
+                        >
+                          3XL
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeTen"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeTen"
+                        >
+                          4XL
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-inline custom-control-size mb-2">
+                        <input
+                          className="custom-control-input"
+                          id="sizeEleven"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="sizeEleven"
+                        >
+                          One Size
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="nav-item">
+                  {/* Toggle */}
+                  <a
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
+                    data-toggle="collapse"
+                    href="#colorCollapse"
+                  >
+                    Color
+                  </a>
+                  {/* Collapse */}
+                  <div
+                    className="collapse"
+                    id="colorCollapse"
+                    data-toggle="simplebar"
+                    data-target="#colorGroup"
+                  >
+                    <div
+                      className="form-group form-group-overflow mb-6"
+                      id="colorGroup"
+                    >
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorOne"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label text-dark"
+                          htmlFor="colorOne"
+                        >
+                          <span className="text-body">Black</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorTwo"
+                          type="checkbox"
+                          defaultChecked=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          style={{ color: "#f9f9f9" }}
+                          htmlFor="colorTwo"
+                        >
+                          <span className="text-body">White</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorThree"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label text-info"
+                          htmlFor="colorThree"
+                        >
+                          <span className="text-body">Blue</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorFour"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label text-primary"
+                          htmlFor="colorFour"
+                        >
+                          <span className="text-body">Red</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorFive"
+                          type="checkbox"
+                          disabled=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="colorFive"
+                          style={{ color: "#795548" }}
+                        >
+                          <span className="text-body">Brown</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorSix"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label text-gray-300"
+                          htmlFor="colorSix"
+                        >
+                          <span className="text-body">Gray</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="colorSeven"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="colorSeven"
+                          style={{ color: "#17a2b8" }}
+                        >
+                          <span className="text-body">Cyan</span>
+                        </label>
+                      </div>
+                      <div className="custom-control custom-control-color">
+                        <input
+                          className="custom-control-input"
+                          id="colorEight"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="colorEight"
+                          style={{ color: "#e83e8c" }}
+                        >
+                          <span className="text-body">Pink</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="nav-item">
+                  {/* Toggle */}
+                  <a
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
+                    data-toggle="collapse"
+                    href="#brandCollapse"
+                  >
+                    Brand
+                  </a>
+                  {/* Collapse */}
+                  <div
+                    className="collapse"
+                    id="brandCollapse"
+                    data-toggle="simplebar"
+                    data-target="#brandGroup"
+                  >
+                    {/* Search */}
+                    <div
+                      data-toggle="lists"
+                      data-options='{"valueNames": ["name"]}'
+                    >
+                      {/* Input group */}
+                      <div className="input-group input-group-merge mb-6">
+                        <input
+                          className="form-control form-control-xs search"
+                          type="search"
+                          placeholder="Search Brand"
+                        />
+                        {/* Button */}
+                        <div className="input-group-append">
+                          <button className="btn btn-outline-border btn-xs">
+                            <i className="fe fe-search" />
+                          </button>
+                        </div>
+                      </div>
+                      {/* Form group */}
+                      <div
+                        className="form-group form-group-overflow mb-6"
+                        id="brandGroup"
+                      >
+                        <div className="list">
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandOne"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandOne"
+                            >
+                              Dsquared2
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandTwo"
+                              type="checkbox"
+                              disabled=""
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandTwo"
+                            >
+                              Alexander McQueen
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandThree"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandThree"
+                            >
+                              Balenciaga
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandFour"
+                              type="checkbox"
+                              defaultChecked=""
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandFour"
+                            >
+                              Adidas
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandFive"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandFive"
+                            >
+                              Balmain
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandSix"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandSix"
+                            >
+                              Burberry
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandSeven"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandSeven"
+                            >
+                              Chloé
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox mb-3">
+                            <input
+                              className="custom-control-input"
+                              id="brandEight"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandEight"
+                            >
+                              Kenzo
+                            </label>
+                          </div>
+                          <div className="custom-control custom-checkbox">
+                            <input
+                              className="custom-control-input"
+                              id="brandNine"
+                              type="checkbox"
+                            />
+                            <label
+                              className="custom-control-label name"
+                              htmlFor="brandNine"
+                            >
+                              Givenchy
+                            </label>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </li>
+                <li className="nav-item">
+                  {/* Toggle */}
+                  <a
+                    className="nav-link dropdown-toggle font-size-lg text-reset border-bottom mb-6"
+                    data-toggle="collapse"
+                    href="#priceCollapse"
+                  >
+                    Price
+                  </a>
+                  {/* Collapse */}
+                  <div
+                    className="collapse"
+                    id="priceCollapse"
+                    data-toggle="simplebar"
+                    data-target="#priceGroup"
+                  >
+                    {/* Form group*/}
+                    <div
+                      className="form-group form-group-overflow mb-6"
+                      id="priceGroup"
+                    >
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="priceOne"
+                          type="checkbox"
+                          defaultChecked=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="priceOne"
+                        >
+                          $10.00 - $49.00
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="priceTwo"
+                          type="checkbox"
+                          defaultChecked=""
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="priceTwo"
+                        >
+                          $50.00 - $99.00
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          className="custom-control-input"
+                          id="priceThree"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="priceThree"
+                        >
+                          $100.00 - $199.00
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox">
+                        <input
+                          className="custom-control-input"
+                          id="priceFour"
+                          type="checkbox"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="priceFour"
+                        >
+                          $200.00 and Up
+                        </label>
+                      </div>
+                    </div>
+                    {/* Range */}
+                    <div className="d-flex align-items-center">
+                      {/* Input */}
+                      <input
+                        type="number"
+                        className="form-control form-control-xs"
+                        placeholder="$10.00"
+                        min={10}
+                      />
+                      {/* Divider */}
+                      <div className="text-gray-350 mx-2">‒</div>
+                      {/* Input */}
+                      <input
+                        type="number"
+                        className="form-control form-control-xs"
+                        placeholder="$350.00"
+                        max={350}
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </form>
+          </div>
+          <div className="col-12 col-md-8 col-lg-9">
+            {/* Slider */}
+            <div
+              className="flickity-page-dots-inner mb-9"
+              data-flickity='{"pageDots": true}'
+            >
+              {/* Item */}
+              <div className="w-100">
+                <div
+                  className="card bg-h-100 bg-left"
+                  style={{ backgroundImage: "url(/img/covers/cover-24.jpg)" }}
+                >
+                  <div className="row" style={{ minHeight: 400 }}>
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6 align-self-center">
+                      <div className="card-body px-md-10 py-11">
+                        {/* Heading */}
+                        <h4>2019 Summer Collection</h4>
+                        {/* Button */}
+                        <a
+                          className="btn btn-link px-0 text-body"
+                          href="shop.html"
+                        >
+                          View Collection{" "}
+                          <i className="fe fe-arrow-right ml-2" />
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      className="col-12 col-md-2 col-lg-4 col-xl-6 d-none d-md-block bg-cover"
+                      style={{
+                        backgroundImage: "url(/img/covers/cover-16.jpg)",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-              {/* Pagination */}
-              <nav className="d-flex justify-content-center mt-9">
-                <ul className="pagination pagination-sm text-gray-400">
-                  <li className="page-item">
-                    <a className="page-link page-link-arrow" href="#">
-                      <i className="fa fa-caret-left" />
-                    </a>
-                  </li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link page-link-arrow" href="#">
-                      <i className="fa fa-caret-right" />
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+              {/* Item */}
+              <div className="w-100">
+                <div
+                  className="card bg-cover"
+                  style={{ backgroundImage: "url(/img/covers/cover-29.jpg)" }}
+                >
+                  <div
+                    className="row align-items-center"
+                    style={{ minHeight: 400 }}
+                  >
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                      <div className="card-body px-md-10 py-11">
+                        {/* Heading */}
+                        <h4 className="mb-5">
+                          Get -50% from Summer Collection
+                        </h4>
+                        {/* Text */}
+                        <p className="mb-7">
+                          Appear, dry there darkness they're seas. <br />
+                          <strong className="text-primary">
+                            Use code 4GF5SD
+                          </strong>
+                        </p>
+                        {/* Button */}
+                        <a className="btn btn-outline-dark" href="shop.html">
+                          Shop Now <i className="fe fe-arrow-right ml-2" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Item */}
+              <div className="w-100">
+                <div
+                  className="card bg-cover"
+                  style={{ backgroundImage: "url(/img/covers/cover-30.jpg)" }}
+                >
+                  <div
+                    className="row align-items-center"
+                    style={{ minHeight: 400 }}
+                  >
+                    <div className="col-12">
+                      <div className="card-body px-md-10 py-11 text-center text-white">
+                        {/* Preheading */}
+                        <p className="text-uppercase">Enjoy an extra</p>
+                        {/* Heading */}
+                        <h1 className="display-4 text-uppercase">50% off</h1>
+                        {/* Link */}
+                        <a
+                          className="link-underline text-reset"
+                          href="shop.html"
+                        >
+                          Shop Collection
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            {/* Header */}
+            <div className="row align-items-center mb-7">
+              <div className="col-12 col-md">
+                {/* Heading */}
+                <h3 className="mb-1">Womens' Clothing</h3>
+                {/* Breadcrumb */}
+                <ol className="breadcrumb mb-md-0 font-size-xs text-gray-400">
+                  <li className="breadcrumb-item">
+                    <a className="text-gray-400" href="index.html">
+                      Home
+                    </a>
+                  </li>
+                  <li className="breadcrumb-item active">Women's Clothing</li>
+                </ol>
+              </div>
+              <div className="col-12 col-md-auto">
+                {/* Select */}
+                <select className="custom-select custom-select-xs">
+                  <option selected="">Most popular</option>
+                </select>
+              </div>
+            </div>
+            {/* Tags */}
+            <div className="row mb-7">
+              <div className="col-12">
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  Shift dresses{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  Summer{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  M{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  White{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  Red{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  Adidas{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  $10.00 - $49.00{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+                <span className="btn btn-xs btn-light font-weight-normal text-muted mr-3 mb-3">
+                  $50.00 - $99.00{" "}
+                  <a className="text-reset ml-2" href="#!" role="button">
+                    <i className="fe fe-x" />
+                  </a>
+                </span>
+              </div>
+            </div>
+            {/* Products */}
+            <div className="row">
+              <ListView
+                LoadingComponent={ProductCardLoading}
+                isLoading={productLoading}
+                items={products}
+                render={(e) => <ProductCard key={e.id} {...e} />}
+                loadingCount={19}
+              />
+            </div>
+            {/* Pagination */}
+            <Paginate totalPage={paginate?.totalPage} />
           </div>
         </div>
-      </section>
-      {/* FEATURES */}
-      <Features />
-    </>
+      </div>
+    </section>
   );
 }

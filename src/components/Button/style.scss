@@ -2,7 +2,7 @@
 
 .Button {
   --border-radius: 0px;
-  --background: #1f1f2f;
+  --background: #{$mainColor};
   --background-hover: #060606;
   --color-hover: white;
   --color: black;
@@ -24,6 +24,12 @@
     color: var(--color-hover);
   }
 
+  & > .fe-arrow-left,
+  &:hover > .fe-arrow-right {
+    transition: all 0.2s ease-in-out;
+    transition-property: transform;
+  }
+
   &.rounded {
     --border-radius: 100px;
   }
@@ -34,14 +40,13 @@
   &.gray {
     --background: #{$grayColor};
     --border-color: #{$grayColor};
-    --color: #fff;
+    --color: #{$whiteColor};
   }
   &.white {
-    --background: white;
-    --color: #111;
-    --border: 1px solid #111;
-
-    --background-hover: #111;
-    --color-hover: white;
+    --background: #{$whiteColor};
+    --color: #{$blackColor};
+    --border: none;
+    --background-hover: #{$whiteColor};
+    --color-hover: #{$blackColor};
   }
 }
