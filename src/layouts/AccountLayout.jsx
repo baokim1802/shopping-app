@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import {
   ACCOUNT_ADDRESS_PATH,
@@ -9,8 +9,10 @@ import {
   ACCOUNT_WISHLIST_PATH,
   AUTH_PATH,
 } from "../core/constants/path";
+import { actionLogout } from "../store/auth";
 
 export default function MainLayout({ children }) {
+  const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   if (!user) return <Navigate to={AUTH_PATH} />;
 
@@ -61,7 +63,8 @@ export default function MainLayout({ children }) {
                 </NavLink>
                 <a
                   className="list-group-item list-group-item-action dropright-toggle"
-                  href="#!"
+                  href="#"
+                  onClick={dispatch(actionLogout())}
                 >
                   Logout
                 </a>
