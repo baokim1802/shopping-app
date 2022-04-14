@@ -15,6 +15,7 @@ import {
   ACCOUNT_ORDER_PATH,
   ACCOUNT_PATH,
   ACCOUNT_WISHLIST_PATH,
+  AUTH_PATH,
   PRODUCT_DETAIL_PATH,
   PRODUCT_PATH,
   SHIPPING_RETURNS_PATH,
@@ -27,6 +28,7 @@ import OrderList from "./pages/account/order";
 import OrderDetail from "./pages/account/order/[id]";
 import AddressList from "./pages/account/address";
 import AddressDetail from "./pages/account/address/[id]";
+import Auth from "./pages/auth";
 
 function App() {
   return (
@@ -52,6 +54,7 @@ function App() {
           </Route>
 
           <Route path={SHIPPING_RETURNS_PATH} element={<ShippingReturns />} />
+          <Route path={AUTH_PATH} element={<Auth />} />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

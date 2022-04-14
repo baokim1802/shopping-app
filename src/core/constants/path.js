@@ -1,4 +1,5 @@
 export const HOME_PATH = "/";
+export const AUTH_PATH = "/auth";
 
 export const PRODUCT_PATH = "/product";
 export const PRODUCT_DETAIL_PATH = "/product/:slug";

@@ -1,14 +1,19 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, NavLink, Outlet } from "react-router-dom";
 import {
   ACCOUNT_ADDRESS_PATH,
   ACCOUNT_ORDER_PATH,
   ACCOUNT_PATH,
   ACCOUNT_PAYMENT_PATH,
   ACCOUNT_WISHLIST_PATH,
+  AUTH_PATH,
 } from "../core/constants/path";
 
 export default function MainLayout({ children }) {
+  const { user } = useSelector((store) => store.user);
+  if (!user) return <Navigate to={AUTH_PATH} />;
+
   return (
     <section className="pt-7 pb-12">
       <div className="container">
