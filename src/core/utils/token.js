@@ -1,8 +1,7 @@
-import { USER_STORAGE_KEY } from "../constants/key";
-
-export const TOKEN_STORAGE_KEY = "token";
+import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from "../constants/key";
 
 export const setToken = (data) => {
+  console.log("In setToken", data);
   localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(data));
 };
 export const getToken = () => {
@@ -14,6 +13,7 @@ export const getToken = () => {
 };
 export const clearToken = () => {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
+  localStorage.removeItem(USER_STORAGE_KEY);
 };
 
 export const getUser = () => {

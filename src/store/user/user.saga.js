@@ -10,6 +10,8 @@ function* fetchUser() {
       setUser(user.data);
 
       yield put(userActions.setUser(user.data));
+    } else {
+      yield put(userActions.setUser(null));
     }
   } catch (error) {
     console.error(error);

@@ -12,7 +12,9 @@ export default function ListView({
     <>
       {isLoading && LoadingComponent
         ? [...Array(loadingCount)].map((_, i) => <LoadingComponent key={i} />)
-        : items?.map(render)}
+        : items?.map((e, i) => (
+            <React.Fragment key={e.id}>{render}</React.Fragment>
+          ))}
     </>
   );
 }

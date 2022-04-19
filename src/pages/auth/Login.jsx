@@ -7,6 +7,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import { actionFetchLogin } from "../../store/auth";
 import { ACCOUNT_PATH } from "../../core/constants/path";
 import { useToggle } from "../../core/hooks/useToggle";
+import { message } from "antd";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export default function Login() {
   const { user } = useSelector((store) => store.user);
 
   const onSubmit = (form) => {
+    console.log("In login form onSubmit", form);
     isFetchLogin.setTrue();
     setLoginError("");
     dispatch(
@@ -36,6 +38,7 @@ export default function Login() {
         data: form,
         success() {
           console.log("Logged in successfully");
+          message.success("Welcome back!");
         },
         error(error) {
           setLoginError(error);

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { call, delay, put, putResolve, takeLatest } from "redux-saga/effects";
 import {
   actionFetchLogin,
@@ -15,8 +16,8 @@ function* fetchLogin(action) {
     // yield putResolve(authActions.statusFetchLogin(true));
 
     const cred = {
-      username: action.payload.email,
-      password: action.payload.password,
+      username: action.payload.data.email,
+      password: action.payload.data.password,
     };
 
     const res = yield call(authService.login, cred);
@@ -47,6 +48,8 @@ function* fetchLogin(action) {
 
 function* logout() {
   clearToken();
+  yield put(actionFetchUser());
+  // yield put(userActions.setUser(null));
 }
 
 function* fetchRegister(action) {

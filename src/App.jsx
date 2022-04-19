@@ -47,10 +47,14 @@ function App() {
             <Route path={ACCOUNT_ORDER_DETAIL_PATH} element={<OrderDetail />} />
 
             <Route path={ACCOUNT_ADDRESS_PATH} element={<AddressList />} />
-            <Route
+
+            {/* <Route
               path={ACCOUNT_ADDRESS_DETAIL_PATH}
               element={<AddressDetail />}
-            />
+            /> */}
+            <Route path="address">
+              <Route />
+            </Route>
           </Route>
 
           <Route path={SHIPPING_RETURNS_PATH} element={<ShippingReturns />} />

@@ -88,7 +88,8 @@ Form.Item = ({ name, label, rules, children, className }) => {
             ...children.props,
             value: values[_name],
             onChange: (value) => {
-              const v = value?.target?.value || value?.target?.checked || value;
+              // const v = value?.target?.value || value?.target?.checked || value;
+              const v = value?.target?.value;
               if (rules) {
                 const errorObj = validate(
                   {

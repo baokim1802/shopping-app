@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink, Outlet } from "react-router-dom";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   ACCOUNT_ADDRESS_PATH,
   ACCOUNT_ORDER_PATH,
@@ -13,8 +13,16 @@ import { actionLogout } from "../store/auth";
 
 export default function MainLayout({ children }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { user } = useSelector((store) => store.user);
+  console.log({ user });
   if (!user) return <Navigate to={AUTH_PATH} />;
+
+  const onClick = () => {
+    console.log("log out button clicked");
+    dispatch(actionLogout());
+  };
 
   return (
     <section className="pt-7 pb-12">
@@ -64,7 +72,7 @@ export default function MainLayout({ children }) {
                 <a
                   className="list-group-item list-group-item-action dropright-toggle"
                   href="#"
-                  onClick={dispatch(actionLogout())}
+                  onClick={onClick}
                 >
                   Logout
                 </a>
