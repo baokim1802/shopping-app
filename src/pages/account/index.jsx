@@ -1,76 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Form from "../../components/Form";
+import Input from "../../components/Input";
+import { useToggle } from "../../core/hooks/useToggle";
+import { password, required } from "../../core/utils/rule";
+import validate from "../../core/utils/validate";
+import Button from "../../components/Button";
+import { actionFetchChangePassword } from "../../store/user";
+import { message } from "antd";
 
 export default function PersonalInfo() {
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
+  const isFetchUpdate = useToggle();
+  const form = Form.useForm();
+
+  useEffect(() => {
+    form.setValues(user);
+  });
+
+  const onFinish = (values) => {
+    console.log(values);
+    isFetchUpdate.setTrue();
+    form.setErrors({ oldPassword: "", newPassword: "" });
+
+    if (values.oldPassword) {
+      const errors = validate(values, {
+        oldPassword: [password()],
+        newPassword: [password()],
+      });
+
+      form.setErrors(errors);
+
+      if (Object.keys(errors).length === 0) {
+        dispatch(
+          actionFetchChangePassword({
+            data: {
+              oldPassword: values.oldPassword,
+              newPassword: values.newPassword,
+            },
+            error(error) {
+              message.error(error);
+            },
+            success() {
+              message.success("Password changed successfully!");
+            },
+          })
+        );
+      }
+    }
+  };
   return (
-    <form>
+    <Form onFinish={onFinish} form={form}>
       <div className="row">
-        <div className="col-12 col-md-6">
+        <div className="col-12 col-md-12">
           {/* Email */}
-          <div className="form-group">
-            <label htmlFor="accountFirstName">First Name *</label>
-            <input
-              className="form-control form-control-sm"
-              id="accountFirstName"
-              type="text"
-              placeholder="First Name *"
-              defaultValue="Daniel"
-              required=""
-            />
-          </div>
-        </div>
-        <div className="col-12 col-md-6">
-          {/* Email */}
-          <div className="form-group">
-            <label htmlFor="accountLastName">Last Name *</label>
-            <input
-              className="form-control form-control-sm"
-              id="accountLastName"
-              type="text"
-              placeholder="Last Name *"
-              defaultValue="Robinson"
-              required=""
-            />
-          </div>
+          <Form.Item name="name" rules={[required("Name")]}>
+            <Input placeholder="Full Name *" />
+          </Form.Item>
         </div>
         <div className="col-12">
-          {/* Email */}
-          <div className="form-group">
-            <label htmlFor="accountEmail">Email Address *</label>
-            <input
-              className="form-control form-control-sm"
-              id="accountEmail"
-              type="email"
-              placeholder="Email Address *"
-              defaultValue="user@email.com"
-              required=""
-            />
-          </div>
+          <Form.Item name="email" rules={[required("Email")]}>
+            <Input placeholder="Email *" />
+          </Form.Item>
         </div>
         <div className="col-12 col-md-6">
           {/* Password */}
-          <div className="form-group">
-            <label htmlFor="accountPassword">Current Password *</label>
-            <input
-              className="form-control form-control-sm"
-              id="accountPassword"
-              type="password"
-              placeholder="Current Password *"
-              required=""
-            />
-          </div>
+          <Form.Item name="oldPassword">
+            <Input placeholder="Current Password" />
+          </Form.Item>
         </div>
         <div className="col-12 col-md-6">
-          {/* Password */}
-          <div className="form-group">
-            <label htmlFor="AccountNewPassword">New Password *</label>
-            <input
-              className="form-control form-control-sm"
-              id="AccountNewPassword"
-              type="password"
-              placeholder="New Password *"
-              required=""
-            />
-          </div>
+          <Form.Item name="newPassword">
+            <Input placeholder="New Password" />
+          </Form.Item>
         </div>
         <div className="col-12 col-lg-6">
           {/* Birthday */}
@@ -140,11 +143,11 @@ export default function PersonalInfo() {
         </div>
         <div className="col-12">
           {/* Button */}
-          <button className="btn btn-dark" type="submit">
+          <Button loading={isFetchUpdate} cnames="btn btn-dark" type="submit">
             Save Changes
-          </button>
+          </Button>
         </div>
       </div>
-    </form>
+    </Form>
   );
 }

@@ -55,8 +55,8 @@ const validatePattern = (value, rule) => {
 };
 
 const validate = (form, rules) => {
-  // console.log("Form", form);
-  // console.log("rules", rules);
+  console.log("Form", form);
+  console.log("rules", rules);
   let errorObj = {};
 
   for (let i in rules) {

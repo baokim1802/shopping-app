@@ -1,6 +1,8 @@
 import { Skeleton } from "@mui/material";
+import { message } from "antd";
 import React from "react";
 import { currency } from "../../core/utils/number";
+import { profileService } from "../../services/profileService";
 
 export const ProductCardLoading = () => {
   return (
@@ -28,7 +30,29 @@ export const ProductCardLoading = () => {
   );
 };
 
-export default function ProductCard({ name, real_price, images, categories }) {
+export default function ProductCard({
+  name,
+  real_price,
+  images,
+  categories,
+  _id,
+}) {
+  const onClickAddWishList = async () => {
+    const res = await profileService.addWishList(_id);
+
+    console.log({ res });
+    if (res.insertCount) {
+      console.log("Item added to wishlist");
+      message.success("Item added to wishlist");
+    } else if (res.error) {
+      if (res.error === "Product has been add to wishlist") {
+        message.info("Item already in wishlist");
+      } else {
+        message.error(res.error);
+      }
+    }
+  };
+
   return (
     <div className="col-6 col-md-4">
       {/* Card */}
@@ -74,7 +98,7 @@ export default function ProductCard({ name, real_price, images, categories }) {
             <span className="card-action">
               <button
                 className="btn btn-xs btn-circle btn-white-primary"
-                data-toggle="button"
+                onClick={onClickAddWishList}
               >
                 <i className="fe fe-heart" />
               </button>

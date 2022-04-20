@@ -2,7 +2,14 @@ import api from "../core/constants/api";
 
 export const profileService = {
   getWishList(query = "") {
-    return api.get(`/product${query}`);
+    console.log("getWishList api", `/ecommerce/v1/profile/wishlist${query}`);
+    return api.get(`/ecommerce/v1/profile/wishlist${query}`);
+  },
+  addWishList(id) {
+    return api.post(`/ecommerce/v1/profile/wishlist/${id}`);
+  },
+  removeWishList(id) {
+    return api.delete(`/ecommerce/v1/profile/wishlist/${id}`);
   },
 
   addAddress(data) {

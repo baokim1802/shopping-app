@@ -3,15 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import ListView from "../../components/ListView";
 import Paginate from "../../components/Paginate";
 import ProductCard, { ProductCardLoading } from "../../components/ProductCard";
+import { usePage } from "../../core/hooks/usePage";
 import useQuery from "../../core/hooks/useQuery";
 import { convertQueryURLToObject } from "../../core/utils/url";
 import { productService } from "../../services/productService";
 
 export default function ProductList() {
-  const query = useSearchParams();
-  const objUrl = convertQueryURLToObject(query[0].toString());
+  const page = usePage();
 
-  const page = parseInt(objUrl.page || "1");
   const {
     data: products,
     loading: productLoading,

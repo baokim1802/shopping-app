@@ -7,8 +7,18 @@ const initialState = {
 
 export const actionFetchUser = createAction("user/fetchUser");
 
-export const { reducer: userReducer, actions: userActions } = createSlice({
+export const {
+  reducer: userReducer,
+  actions: userActions,
+  name,
+} = createSlice({
   initialState,
   name: "user",
   reducers: { setUser: (state, action) => ({ user: action.payload }) },
 });
+
+export const actionFetchChangePassword = createAction(
+  `${name}/fetchChangePassword`
+);
+
+export const actionFetchUpdateInfo = createAction(`${name}/fetchUpdateInfo`);
