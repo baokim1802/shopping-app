@@ -7,7 +7,7 @@ export default function ListView({
   loadingCount = 10,
   LoadingComponent,
 }) {
-  console.log(loadingCount);
+  // console.log(loadingCount);
   return (
     <>
       {isLoading && LoadingComponent

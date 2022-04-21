@@ -1,21 +1,39 @@
+import query from "express/lib/middleware/query";
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ListView from "../../components/ListView";
 import Paginate from "../../components/Paginate";
 import ProductCard, { ProductCardLoading } from "../../components/ProductCard";
+import { PRODUCT_PATH } from "../../core/constants/path";
+import { useQueryURL } from "../../core/hooks";
 import { usePage } from "../../core/hooks/usePage";
 import useQuery from "../../core/hooks/useQuery";
-import { convertQueryURLToObject } from "../../core/utils/url";
+import { convertObjToQueryString } from "../../core/utils/url";
 import { productService } from "../../services/productService";
 
 export default function ProductList() {
+  const navigate = useNavigate();
   const page = usePage();
+  const queryObj = useQueryURL();
+  const queryString = convertObjToQueryString({
+    name: queryObj.q,
+    page,
+    sort: queryObj.sort,
+  });
 
   const {
     data: products,
     loading: productLoading,
     paginate,
-  } = useQuery(() => productService.getProduct(`?page=${page}`), [page]);
+  } = useQuery(() => productService.getProduct(queryString), [queryString]);
+
+  const onChangeSort = (ev) => {
+    queryObj.sort = ev.target.value;
+    queryObj.page = undefined;
+    const queryString = convertObjToQueryString(queryObj);
+
+    navigate(PRODUCT_PATH + queryString);
+  };
   return (
     <section className="py-11">
       <div className="container">
@@ -1234,107 +1252,125 @@ export default function ProductList() {
             </form>
           </div>
           <div className="col-12 col-md-8 col-lg-9">
-            {/* Slider */}
-            <div
-              className="flickity-page-dots-inner mb-9"
-              data-flickity='{"pageDots": true}'
-            >
-              {/* Item */}
-              <div className="w-100">
+            {!queryObj.q && (
+              <div>
                 <div
-                  className="card bg-h-100 bg-left"
-                  style={{ backgroundImage: "url(/img/covers/cover-24.jpg)" }}
+                  className="flickity-page-dots-inner mb-9"
+                  data-flickity='{"pageDots": true}'
                 >
-                  <div className="row" style={{ minHeight: 400 }}>
-                    <div className="col-12 col-md-10 col-lg-8 col-xl-6 align-self-center">
-                      <div className="card-body px-md-10 py-11">
-                        {/* Heading */}
-                        <h4>2019 Summer Collection</h4>
-                        {/* Button */}
-                        <a
-                          className="btn btn-link px-0 text-body"
-                          href="shop.html"
-                        >
-                          View Collection{" "}
-                          <i className="fe fe-arrow-right ml-2" />
-                        </a>
-                      </div>
-                    </div>
+                  {/* Item */}
+                  <div className="w-100">
                     <div
-                      className="col-12 col-md-2 col-lg-4 col-xl-6 d-none d-md-block bg-cover"
+                      className="card bg-h-100 bg-left"
                       style={{
-                        backgroundImage: "url(/img/covers/cover-16.jpg)",
+                        backgroundImage: "url(/img/covers/cover-24.jpg)",
                       }}
-                    />
+                    >
+                      <div className="row" style={{ minHeight: 400 }}>
+                        <div className="col-12 col-md-10 col-lg-8 col-xl-6 align-self-center">
+                          <div className="card-body px-md-10 py-11">
+                            {/* Heading */}
+                            <h4>2019 Summer Collection</h4>
+                            {/* Button */}
+                            <a
+                              className="btn btn-link px-0 text-body"
+                              href="shop.html"
+                            >
+                              View Collection{" "}
+                              <i className="fe fe-arrow-right ml-2" />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          className="col-12 col-md-2 col-lg-4 col-xl-6 d-none d-md-block bg-cover"
+                          style={{
+                            backgroundImage: "url(/img/covers/cover-16.jpg)",
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              {/* Item */}
-              <div className="w-100">
-                <div
-                  className="card bg-cover"
-                  style={{ backgroundImage: "url(/img/covers/cover-29.jpg)" }}
-                >
-                  <div
-                    className="row align-items-center"
-                    style={{ minHeight: 400 }}
-                  >
-                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
-                      <div className="card-body px-md-10 py-11">
-                        {/* Heading */}
-                        <h4 className="mb-5">
-                          Get -50% from Summer Collection
-                        </h4>
-                        {/* Text */}
-                        <p className="mb-7">
-                          Appear, dry there darkness they're seas. <br />
-                          <strong className="text-primary">
-                            Use code 4GF5SD
-                          </strong>
-                        </p>
-                        {/* Button */}
-                        <a className="btn btn-outline-dark" href="shop.html">
-                          Shop Now <i className="fe fe-arrow-right ml-2" />
-                        </a>
+                  {/* Item */}
+                  <div className="w-100">
+                    <div
+                      className="card bg-cover"
+                      style={{
+                        backgroundImage: "url(/img/covers/cover-29.jpg)",
+                      }}
+                    >
+                      <div
+                        className="row align-items-center"
+                        style={{ minHeight: 400 }}
+                      >
+                        <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                          <div className="card-body px-md-10 py-11">
+                            {/* Heading */}
+                            <h4 className="mb-5">
+                              Get -50% from Summer Collection
+                            </h4>
+                            {/* Text */}
+                            <p className="mb-7">
+                              Appear, dry there darkness they're seas. <br />
+                              <strong className="text-primary">
+                                Use code 4GF5SD
+                              </strong>
+                            </p>
+                            {/* Button */}
+                            <a
+                              className="btn btn-outline-dark"
+                              href="shop.html"
+                            >
+                              Shop Now <i className="fe fe-arrow-right ml-2" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Item */}
+                  <div className="w-100">
+                    <div
+                      className="card bg-cover"
+                      style={{
+                        backgroundImage: "url(/img/covers/cover-30.jpg)",
+                      }}
+                    >
+                      <div
+                        className="row align-items-center"
+                        style={{ minHeight: 400 }}
+                      >
+                        <div className="col-12">
+                          <div className="card-body px-md-10 py-11 text-center text-white">
+                            {/* Preheading */}
+                            <p className="text-uppercase">Enjoy an extra</p>
+                            {/* Heading */}
+                            <h1 className="display-4 text-uppercase">
+                              50% off
+                            </h1>
+                            {/* Link */}
+                            <a
+                              className="link-underline text-reset"
+                              href="shop.html"
+                            >
+                              Shop Collection
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Item */}
-              <div className="w-100">
-                <div
-                  className="card bg-cover"
-                  style={{ backgroundImage: "url(/img/covers/cover-30.jpg)" }}
-                >
-                  <div
-                    className="row align-items-center"
-                    style={{ minHeight: 400 }}
-                  >
-                    <div className="col-12">
-                      <div className="card-body px-md-10 py-11 text-center text-white">
-                        {/* Preheading */}
-                        <p className="text-uppercase">Enjoy an extra</p>
-                        {/* Heading */}
-                        <h1 className="display-4 text-uppercase">50% off</h1>
-                        {/* Link */}
-                        <a
-                          className="link-underline text-reset"
-                          href="shop.html"
-                        >
-                          Shop Collection
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
             {/* Header */}
             <div className="row align-items-center mb-7">
               <div className="col-12 col-md">
                 {/* Heading */}
-                <h3 className="mb-1">Womens' Clothing</h3>
+                <h3 className="mb-1">
+                  {queryObj.q
+                    ? `Search Results for \`${queryObj.q}\``
+                    : "Womens' Clothing"}
+                </h3>
                 {/* Breadcrumb */}
                 <ol className="breadcrumb mb-md-0 font-size-xs text-gray-400">
                   <li className="breadcrumb-item">
@@ -1347,8 +1383,17 @@ export default function ProductList() {
               </div>
               <div className="col-12 col-md-auto">
                 {/* Select */}
-                <select className="custom-select custom-select-xs">
-                  <option selected="">Most popular</option>
+                <select
+                  onChange={onChangeSort}
+                  defaultValue={queryObj.sort}
+                  className="custom-select custom-select-xs"
+                >
+                  <option selected value="">
+                    -- Sort By --
+                  </option>
+                  <option value="real_price.desc">Price: High to Low</option>
+                  <option value="real_price.asc">Price: Low to High</option>
+                  <option value="rating_average.desc">Highest Ratings</option>
                 </select>
               </div>
             </div>
@@ -1405,7 +1450,7 @@ export default function ProductList() {
                 </span>
               </div>
             </div>
-            {/* Products */}
+
             <div className="row">
               <ListView
                 LoadingComponent={ProductCardLoading}
